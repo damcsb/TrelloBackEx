@@ -3,12 +3,14 @@ import { Router, Request, Response } from 'express';
 import List from '../model/List-model';
 
 class ListRouter {
+
     router:Router;
 
     constructor(){
         this.router = Router();
         this.routes();
     }
+    
     async getLists(req:Request, res:Response){
         const lists = await List.find();
         res.json(lists);
@@ -26,7 +28,6 @@ class ListRouter {
         console.log(newList);
         res.json({ List: newList });
     }
-
 
     async updateList(req: Request, res: Response) {
         const list = await List.findOneAndUpdate({_id:req.params.id}, req.body, { new: true });

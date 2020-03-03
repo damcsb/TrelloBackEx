@@ -1,10 +1,14 @@
+import { Router, Request, Response, NextFunction  } from 'express';
 import express = require('express');
 import mongoose = require('mongoose');
 
 import indexRoutes from '../routes/indexRoutes';
 import ListRouter from '../routes/ListRoutes';
+import CardRouter from '../routes/CardRoutes';
 
 class Server {
+
+    router:Router;
 
     public app: express.Express = express();
 
@@ -12,8 +16,8 @@ class Server {
         this.app = express();
         this.config();
         this.routes();
+        this.router = Router();
     }
-
     config() {
         //
         ////Mongo config
@@ -29,6 +33,15 @@ class Server {
         
         this.app.use(express.json());
         this.app.use(express.urlencoded({ extended: false }));
+
+
+    }
+    listIdCorrect(req:Request, res:Response, next:NextFunction) {
+        if(req.params.id){
+            next();
+        }else{
+            this.router.get('/', (req, res)=>res.send('invalid ID-List'));
+        }
     }
 
     start() {
@@ -41,7 +54,8 @@ class Server {
 
     routes(){
         this.app.use(indexRoutes);
-        this.app.use('/api/lists', ListRouter)
+        this.app.use('/api/lists', ListRouter);
+        this.app.use('/api/cards', CardRouter);
     }
 }
 const server = new Server();
