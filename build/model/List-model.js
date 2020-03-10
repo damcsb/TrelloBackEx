@@ -10,5 +10,5 @@ var ListSchema = new mongoose_1.Schema({
 }, {
     versionKey: false
 });
+module.exports = mongoose.model('list', ListSchema);
 exports.default = mongoose_1.model('List', ListSchema);
-module.exports = mongoose.model('List', ListSchema);

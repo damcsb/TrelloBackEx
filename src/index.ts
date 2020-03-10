@@ -4,7 +4,7 @@ import mongoose = require('mongoose');
 
 import indexRoutes from '../routes/indexRoutes';
 import ListRouter from '../routes/ListRoutes';
-import CardRouter from '../routes/CardRoutes';
+import BoardRouter from '../routes/BoardRoutes';
 
 class Server {
 
@@ -33,15 +33,6 @@ class Server {
         
         this.app.use(express.json());
         this.app.use(express.urlencoded({ extended: false }));
-
-
-    }
-    listIdCorrect(req:Request, res:Response, next:NextFunction) {
-        if(req.params.id){
-            next();
-        }else{
-            this.router.get('/', (req, res)=>res.send('invalid ID-List'));
-        }
     }
 
     start() {
@@ -55,7 +46,7 @@ class Server {
     routes(){
         this.app.use(indexRoutes);
         this.app.use('/api/lists', ListRouter);
-        this.app.use('/api/cards', CardRouter);
+        this.app.use('/api/board', BoardRouter);
     }
 }
 const server = new Server();

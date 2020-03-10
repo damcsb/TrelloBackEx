@@ -10,5 +10,5 @@ const ListSchema = new Schema({
     versionKey: false
 });
 
+module.exports = mongoose.model('list', ListSchema);
 export default model('List', ListSchema);
-module.exports = mongoose.model('List', ListSchema);

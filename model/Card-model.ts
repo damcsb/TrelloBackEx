@@ -3,13 +3,13 @@ const mongoose = require('mongoose');
 //
 ////Cards
 var CardSchema = new Schema({
-    nameCard:{ type:String },
+    name:{ type:String, required: true},
     trellocardId: { type:Number },
-    listid:[{ type: Schema.Types.ObjectId, ref: 'List', required: true }]
+    listid:{ type: Schema.Types.ObjectId, ref:'list' }
 },{
     versionKey: false
 });
 
+module.exports = mongoose.model('card', CardSchema);
 export default model('Card', CardSchema);
-module.exports = mongoose.model('Card', CardSchema);
-//var Card = mongoose.model('Card', CardSchema);
+

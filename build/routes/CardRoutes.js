@@ -40,6 +40,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = require("express");
+var bson_1 = require("bson");
 var Card_model_1 = __importDefault(require("../model/Card-model"));
 var CardRouter = /** @class */ (function () {
     function CardRouter() {
@@ -76,12 +77,13 @@ var CardRouter = /** @class */ (function () {
     };
     CardRouter.prototype.createCard = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, name, trellocardId, newCard;
+            var listid, _a, name, trellocardId, newCard;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
+                        listid = new bson_1.ObjectId(req.body.listid);
                         _a = req.body, name = _a.name, trellocardId = _a.trellocardId;
-                        newCard = new Card_model_1.default({ name: name, trellocardId: trellocardId });
+                        newCard = new Card_model_1.default({ name: name, trellocardId: trellocardId, listid: listid });
                         return [4 /*yield*/, newCard.save()];
                     case 1:
                         _b.sent();
@@ -120,11 +122,11 @@ var CardRouter = /** @class */ (function () {
         });
     };
     CardRouter.prototype.routes = function () {
-        this.router.get('/', this.getCards);
-        this.router.get('/:id', this.getCard);
-        this.router.post('/', this.createCard);
-        this.router.put('/:id', this.updateCard);
-        this.router.delete('/:id', this.deleteCard);
+        this.router.get('/cards', this.getCards);
+        this.router.get('/cards/:id', this.getCard);
+        this.router.post('/cards', this.createCard);
+        this.router.put('/cards/:id', this.updateCard);
+        this.router.delete('/cards/:id', this.deleteCard);
     };
     return CardRouter;
 }());

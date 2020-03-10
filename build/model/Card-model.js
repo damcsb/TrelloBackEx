@@ -5,12 +5,11 @@ var mongoose = require('mongoose');
 //
 ////Cards
 var CardSchema = new mongoose_1.Schema({
-    nameCard: { type: String },
+    name: { type: String, required: true },
     trellocardId: { type: Number },
-    listid: [{ type: mongoose_1.Schema.Types.ObjectId, ref: 'List', required: true }]
+    listid: { type: mongoose_1.Schema.Types.ObjectId, ref: 'list' }
 }, {
     versionKey: false
 });
+module.exports = mongoose.model('card', CardSchema);
 exports.default = mongoose_1.model('Card', CardSchema);
-module.exports = mongoose.model('Card', CardSchema);
-//var Card = mongoose.model('Card', CardSchema);

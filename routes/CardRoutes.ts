@@ -1,9 +1,12 @@
 import { Router, Request, Response } from 'express';
+import { ObjectId } from 'bson'
 
 import Card from '../model/Card-model';
 
 class CardRouter {
+
     router: Router;
+    
 
     constructor(){
         this.router = Router();
@@ -21,13 +24,15 @@ class CardRouter {
     }
 
     async createCard(req: Request, res: Response) {
-        const {name, trellocardId}  = req.body;
-        const newCard = new Card({name, trellocardId});
+
+        let listid = new ObjectId(req.body.listid);
+
+        const {name, trellocardId} = req.body;
+        const newCard = new Card({name, trellocardId, listid});
         await newCard.save();
         console.log(newCard);
         res.json({ Card: newCard });
     }
-
 
     async updateCard(req: Request, res: Response) {
         const card = await Card.findOneAndUpdate({_id:req.params.id}, req.body, { new: true });
@@ -40,16 +45,17 @@ class CardRouter {
     }
 
     routes(){
-        this.router.get('/', this.getCards);
-        this.router.get('/:id', this.getCard);
-        this.router.post('/', this.createCard);
-        this.router.put('/:id', this.updateCard);
-        this.router.delete('/:id', this.deleteCard);
+
+        this.router.get('/cards', this.getCards);
+        this.router.get('/cards/:id', this.getCard);
+        this.router.post('/cards', this.createCard);
+        this.router.put('/cards/:id', this.updateCard);
+        this.router.delete('/cards/:id', this.deleteCard);
+
     }
 
 }
+
 const cardRoutes = new CardRouter();
 
 export default cardRoutes.router;
-
-

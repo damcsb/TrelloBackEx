@@ -8,7 +8,7 @@ var express = require("express");
 var mongoose = require("mongoose");
 var indexRoutes_1 = __importDefault(require("../routes/indexRoutes"));
 var ListRoutes_1 = __importDefault(require("../routes/ListRoutes"));
-var CardRoutes_1 = __importDefault(require("../routes/CardRoutes"));
+var BoardRoutes_1 = __importDefault(require("../routes/BoardRoutes"));
 var Server = /** @class */ (function () {
     function Server() {
         this.app = express();
@@ -32,14 +32,6 @@ var Server = /** @class */ (function () {
         this.app.use(express.json());
         this.app.use(express.urlencoded({ extended: false }));
     };
-    Server.prototype.listIdCorrect = function (req, res, next) {
-        if (req.params.id) {
-            next();
-        }
-        else {
-            this.router.get('/', function (req, res) { return res.send('invalid ID-List'); });
-        }
-    };
     Server.prototype.start = function () {
         //
         ////Server start method
@@ -50,7 +42,7 @@ var Server = /** @class */ (function () {
     Server.prototype.routes = function () {
         this.app.use(indexRoutes_1.default);
         this.app.use('/api/lists', ListRoutes_1.default);
-        this.app.use('/api/cards', CardRoutes_1.default);
+        this.app.use('/api/board', BoardRoutes_1.default);
     };
     return Server;
 }());

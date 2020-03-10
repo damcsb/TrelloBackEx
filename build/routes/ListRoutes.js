@@ -41,6 +41,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = require("express");
 var List_model_1 = __importDefault(require("../model/List-model"));
+var Card_model_1 = __importDefault(require("../model/Card-model"));
+var CardRoutes_1 = __importDefault(require("./CardRoutes"));
 var ListRouter = /** @class */ (function () {
     function ListRouter() {
         this.router = express_1.Router();
@@ -113,6 +115,9 @@ var ListRouter = /** @class */ (function () {
                     case 0: return [4 /*yield*/, List_model_1.default.findOneAndDelete({ _id: req.params.id })];
                     case 1:
                         _a.sent();
+                        return [4 /*yield*/, Card_model_1.default.deleteMany({ listid: req.params.id })];
+                    case 2:
+                        _a.sent();
                         res.json('List deleted succesfully');
                         return [2 /*return*/];
                 }
@@ -121,10 +126,15 @@ var ListRouter = /** @class */ (function () {
     };
     ListRouter.prototype.routes = function () {
         this.router.get('/', this.getLists);
-        this.router.get('/:id', this.getList);
         this.router.post('/', this.createList);
         this.router.put('/:id', this.updateList);
         this.router.delete('/:id', this.deleteList);
+        this.router.use('/:id', function (req, res, next) {
+            console.log("middleware");
+            next();
+        });
+        this.router.get('/:id', this.getList);
+        this.router.use('/:id', CardRoutes_1.default);
     };
     return ListRouter;
 }());
